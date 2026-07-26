@@ -1,3 +1,17 @@
 __pycache__/
 *.pyc
 .findmy-session.json
+.findmy-cookies/
+
+# Next.js
+node_modules/
+.next/
+*.tsbuildinfo
+next-env.d.ts
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

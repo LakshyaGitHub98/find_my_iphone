@@ -1,0 +1,11 @@
+node_modules
+.next
+__pycache__
+*.pyc
+.git
+.gitignore
+*.md
+.env.local
+backend/__pycache__
+.findmy-session.json
+.findmy-cookies

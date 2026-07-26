@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: findmy-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - findmy-session:/root/.findmy-session.json
+      - findmy-cookies:/root/.findmy-cookies
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: findmy-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - BACKEND_URL=http://backend:8000
+    restart: unless-stopped
+
+volumes:
+  findmy-session:
+  findmy-cookies:

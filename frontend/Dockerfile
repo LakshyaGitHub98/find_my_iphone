@@ -1,5 +1,7 @@
 FROM node:22-alpine AS builder
 
+ARG BACKEND_URL=http://backend:8000
+
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
@@ -7,6 +9,7 @@ RUN npm ci
 
 COPY . .
 ENV DOCKER_BUILD=1
+ENV BACKEND_URL=$BACKEND_URL
 RUN npm run build
 
 FROM node:22-alpine AS runner
@@ -29,6 +32,5 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
-ENV BACKEND_URL=http://backend:8000
 
 CMD ["node", "server.js"]

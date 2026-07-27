@@ -111,18 +111,22 @@ export default function LoginPage() {
                       </button>
                     ))}
                   </div>
-                  {methods.find((m) => m.id === selectedMethod)?.type === "phone" && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={handleSendCode}
-                      disabled={loading}
-                      className="w-full"
-                    >
-                      Send SMS code
-                    </Button>
-                  )}
+                  {(() => {
+                    const method = methods.find((m) => m.id === selectedMethod);
+                    if (!method) return null;
+                    return (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={handleSendCode}
+                        disabled={loading}
+                        className="w-full"
+                      >
+                        {method.type === "phone" ? "Send SMS code" : "Send code"}
+                      </Button>
+                    );
+                  })()}
                 </div>
               )}
               <div className="space-y-2">

@@ -2,11 +2,9 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 
-from icloud_client import FindMyClient
+from client import client
 
 router = APIRouter(prefix="/api/devices", tags=["devices"])
-
-client = FindMyClient()
 
 
 def require_auth():

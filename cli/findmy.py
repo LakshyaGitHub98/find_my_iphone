@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 from datetime import datetime
 
 import click
@@ -7,6 +8,8 @@ from rich.table import Table
 from rich import print as rprint
 
 from pyicloud import PyiCloudService
+
+sys.path.insert(0, str(Path(__file__).parent))
 from icloud_client import FindMyClient
 
 console = Console()

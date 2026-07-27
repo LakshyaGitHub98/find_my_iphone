@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 from pyicloud import PyiCloudService
-from pyicloud.exceptions import PyiCloudAPIResponseException
+from pyicloud.exceptions import PyiCloudAPIResponseException, PyiCloudFailedLoginException
 
 SESSION_FILE = Path.home() / ".findmy-session.json"
 COOKIE_DIR = Path.home() / ".findmy-cookies"
@@ -106,10 +106,15 @@ class FindMyClient:
     _pending_logins: dict = {}
 
     def start_login(self, apple_id: str, password: str) -> dict:
-        api = PyiCloudService(
-            apple_id, password,
-            cookie_directory=str(COOKIE_DIR),
-        )
+        try:
+            api = PyiCloudService(
+                apple_id, password,
+                cookie_directory=str(COOKIE_DIR),
+            )
+        except PyiCloudFailedLoginException:
+            return {"status": "error", "message": "Invalid email/password combination."}
+        except PyiCloudAPIResponseException as e:
+            return {"status": "error", "message": str(e) or "Apple server error."}
 
         if not api.requires_2fa and not api.requires_2sa:
             self.api = api
